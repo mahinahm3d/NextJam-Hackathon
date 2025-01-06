@@ -1,7 +1,32 @@
-import Image from "next/image";
+"use client";
 
-// src/pages/about.tsx
+import Image from "next/image";
+import { useState } from "react";
+
 const AboutPage = () => {
+  const testimonials = [
+    { name: "Mike Johnson", image: "/images/client1.jpg" },
+    { name: "John Doe", image: "/images/client2.jpg" },
+    { name: "Sarah Brown", image: "/images/client3.png" },
+  ];
+
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+
+  const handleNext = () => {
+    setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+  };
+
+  const handlePrev = () => {
+    setCurrentTestimonial(
+      (prev) => (prev - 1 + testimonials.length) % testimonials.length
+    );
+  };
+
+  const handleContactClick = () => {
+    alert("Redirecting to the contact page...");
+    // You can replace this with a router.push("/contact") for actual navigation
+  };
+
   return (
     <div className="px-6 lg:px-20 py-10">
       {/* Hero Section */}
@@ -24,7 +49,10 @@ const AboutPage = () => {
             ligula et libero sodales suscipit. Morbi arcu eros, tincidunt non
             turpis non, bibendum porttitor nisi.
           </p>
-          <button className="px-6 py-2 bg-pink-500 text-white font-semibold rounded-md shadow-md">
+          <button
+            onClick={handleContactClick}
+            className="px-6 py-2 bg-pink-500 text-white font-semibold rounded-md shadow-md hover:bg-pink-600 transition duration-300"
+          >
             Contact Us
           </button>
         </div>
@@ -62,16 +90,15 @@ const AboutPage = () => {
           ].map((feature, index) => (
             <div
               key={index}
-              className="p-6 border rounded-lg shadow-md hover:shadow-lg flex flex-col items-center"
+              className="p-6 border rounded-lg shadow-md hover:shadow-lg hover:scale-105 transform transition duration-300 flex flex-col items-center"
             >
-                <Image
-                  src={feature.icon}
-                  alt={feature.title}
-                  width={200}
-                  height={200}
-                 className="w-16 h-16"
-                />
-
+              <Image
+                src={feature.icon}
+                alt={feature.title}
+                width={200}
+                height={200}
+                className="w-16 h-16"
+              />
               <h3 className="font-semibold text-lg mb-2">{feature.title}</h3>
               <p className="text-gray-600 text-sm">{feature.description}</p>
             </div>
@@ -82,23 +109,31 @@ const AboutPage = () => {
       {/* Testimonials Section */}
       <section className="my-16 text-center">
         <h2 className="text-2xl font-bold mb-8">Our Client Say!</h2>
-        <div className="flex justify-center items-center space-x-6">
-          {[
-            { name: "Mike Johnson", image: "/images/client1.jpg" },
-            { name: "John Doe", image: "/images/client2.jpg" },
-            { name: "Sarah Brown", image: "/images/client3.png" },
-          ].map((client, index) => (
-            <div key={index} className="flex flex-col items-center">
-              <Image
-                src={client.image}
-                alt={client.name}
-                width={500}
-                height={500}
-                className="w-16 h-16 rounded-full object-cover shadow-md mb-2"
-              />
-              <p className="text-gray-800 font-semibold">{client.name}</p>
-            </div>
-          ))}
+        <div className="relative">
+          <div className="flex flex-col items-center">
+            <Image
+              src={testimonials[currentTestimonial].image}
+              alt={testimonials[currentTestimonial].name}
+              width={500}
+              height={500}
+              className="w-16 h-16 rounded-full object-cover shadow-md mb-2"
+            />
+            <p className="text-gray-800 font-semibold">
+              {testimonials[currentTestimonial].name}
+            </p>
+          </div>
+          <button
+            onClick={handlePrev}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-pink-500 text-white px-3 py-1 rounded-full hover:bg-pink-600 transition duration-300"
+          >
+            ❮
+          </button>
+          <button
+            onClick={handleNext}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-pink-500 text-white px-3 py-1 rounded-full hover:bg-pink-600 transition duration-300"
+          >
+            ❯
+          </button>
         </div>
         <p className="mt-6 text-gray-600">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Non odio
