@@ -70,99 +70,94 @@ const ShopList = () => {
         </div>
       </div>
       <div className="p-8">
-      <div className="space-y-6">
-        {shoplist.map((product) => (
-          <div
-            key={product.id}
-            className="flex flex-col lg:flex-row bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
-          >
-            {/* Product Image */}
-            <div className="lg:w-1/3 flex-shrink-0">
-              <Image
-                src={product.image}
-                alt={product.name}
-                width={500}
-                height={400}
-                className="w-full h-48 object-cover rounded-lg"
-              />
-            </div>
-
-            {/* Product Details */}
-            <div className="lg:w-2/3 lg:ml-6 mt-4 lg:mt-0">
-            <div className="w-96 flex justify-between items-center">
-              <h3 className="text-xl font-semibold">
-                {product.name}
-              </h3>
-              {/* Color Options */}
-              <div className="mt-2 flex gap-1">
-                {product.colors.map((color, index) => (
-                  <span
-                    key={index}
-                    className={`w-3 h-3 ${color} rounded-full`}
-                  ></span>
-                ))}
-              </div>
-              </div>
-              {/* Price and Old Price */}
-              <div className="mt-4 flex items-center space-x-2">
-                <span className=" text-lg font-bold">
-                  {product.price}
-                </span>
-                <span className="text-red-500 line-through">
-                  {product.oldPrice}
-                </span>
-              </div>
-              <p className="mt-2 text-gray-600 w-96">{product.description}</p>
-
-
-              {/* Rating */}
-              <div className="mt-2 flex items-center">
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <span
-                    key={index}
-                    className={`${
-                      index < product.rating
-                        ? "text-yellow-400"
-                        : "text-gray-300"
-                    } text-lg`}
-                  >
-                    ★
-                  </span>
-                ))}
-              </div>
-
-              {/* Action Buttons */}
-              <div className="mt-4 flex space-x-4">
-                <button className="flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full hover:bg-gray-300">
+        <div className="space-y-6">
+          {shoplist.map((product) => (
+            <div
+              key={product.id}
+              className="flex flex-col lg:flex-row bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+            >
+              {/* Product Image */}
+              <div className="lg:w-1/3 flex-shrink-0">
                 <Image
-                src={"/icons/heart-b.svg"}
-                alt={"heart"}
-                width={24}
-                height={24}
-              />
-                </button>
-                <button className="flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full hover:bg-gray-300">
-                <Image
-                src={"/icons/cart-b.svg"}
-                alt={"heart"}
-                width={24}
-                height={24}
-              />
-                </button>
-                <button className="flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full hover:bg-gray-300">
-                <Image
-                src={"/icons/view.svg"}
-                alt={"heart"}
-                width={24}
-                height={24}
-              />
-                </button>
+                  src={product.image}
+                  alt={product.name}
+                  width={500}
+                  height={400}
+                  className="w-full h-48 object-cover rounded-lg"
+                />
+              </div>
+
+              {/* Product Details */}
+              <div className="lg:w-2/3 lg:ml-6 mt-4 lg:mt-0">
+                <div className="w-96 flex justify-between items-center">
+                  <h3 className="text-xl font-semibold">
+                    <Link href={`/product/${product.id}`}>{product.name}</Link>
+                  </h3>
+                  {/* Color Options */}
+                  <div className="mt-2 flex gap-1">
+                    {product.colors.map((color, index) => (
+                      <span
+                        key={index}
+                        className={`w-3 h-3 ${color} rounded-full`}
+                      ></span>
+                    ))}
+                  </div>
+                </div>
+                {/* Price and Old Price */}
+                <div className="mt-4 flex items-center space-x-2">
+                  <span className="text-lg font-bold">{product.price}</span>
+                  <span className="text-red-500 line-through">{product.oldPrice}</span>
+                </div>
+                <p className="mt-2 text-gray-600 w-96">{product.description}</p>
+
+                {/* Rating */}
+                <div className="mt-2 flex items-center">
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <span
+                      key={index}
+                      className={`${
+                        index < product.rating
+                          ? "text-yellow-400"
+                          : "text-gray-300"
+                      } text-lg`}
+                    >
+                      ★
+                    </span>
+                  ))}
+                </div>
+
+                {/* Action Buttons */}
+                <div className="mt-4 flex space-x-4">
+                  <button className="flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full hover:bg-gray-300">
+                    <Image
+                      src={"/icons/heart-b.svg"}
+                      alt={"heart"}
+                      width={24}
+                      height={24}
+                    />
+                  </button>
+                  <button className="flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full hover:bg-gray-300">
+                    <Image
+                      src={"/icons/cart-b.svg"}
+                      alt={"heart"}
+                      width={24}
+                      height={24}
+                    />
+                  </button>
+                  <button className="flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full hover:bg-gray-300">
+                    <Image
+                      src={"/icons/view.svg"}
+                      alt={"heart"}
+                      width={24}
+                      height={24}
+                    />
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
     </div>
   );
 };
