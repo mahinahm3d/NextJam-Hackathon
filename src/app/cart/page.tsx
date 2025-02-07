@@ -7,19 +7,41 @@ import Image from "next/image";
 const Cart = () => {
   const [cartItems, setCartItems] = useState(cartproducts);
 
+  // Update quantity function
   const updateQuantity = (id: number, newQuantity: number) => {
     setCartItems((prevItems) =>
       prevItems.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
+        item.id === id ? { ...item, quantity: Math.max(1, newQuantity) } : item
       )
     );
   };
 
+  // Remove an item from the cart
+  const removeItem = (id: number) => {
+    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  };
+
+  // Clear the entire cart
+  const clearCart = () => {
+    setCartItems([]);
+  };
+
+  // Calculate the total cart value
   const calculateTotal = () => {
     return cartItems.reduce(
       (total, item) => total + item.price * item.quantity,
       0
     );
+  };
+
+  // Simulate checkout
+  const handleCheckout = () => {
+    if (cartItems.length === 0) {
+      alert("Your cart is empty! Add items before checking out.");
+      return;
+    }
+    alert("Proceeding to checkout...");
+    // You can integrate actual checkout logic here
   };
 
   return (
@@ -33,6 +55,7 @@ const Cart = () => {
               <th className="p-4 border">Price</th>
               <th className="p-4 border">Quantity</th>
               <th className="p-4 border">Total</th>
+              <th className="p-4 border">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -68,15 +91,23 @@ const Cart = () => {
                 <td className="p-4 border">
                   ${(item.price * item.quantity).toFixed(2)}
                 </td>
+                <td className="p-4 border">
+                  <button
+                    onClick={() => removeItem(item.id)}
+                    className="px-3 py-1 bg-red-500 text-white rounded-md"
+                  >
+                    Remove
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
         <div className="flex justify-between mt-4">
-          <button className="px-4 py-2 bg-pink-500 text-white rounded-md">
-            Update Cart
-          </button>
-          <button className="px-4 py-2 bg-pink-500 text-white rounded-md">
+          <button
+            onClick={clearCart}
+            className="px-4 py-2 bg-gray-600 text-white rounded-md"
+          >
             Clear Cart
           </button>
         </div>
@@ -90,24 +121,28 @@ const Cart = () => {
             <span>Subtotal:</span> <span>${calculateTotal().toFixed(2)}</span>
           </p>
           <p className="flex justify-between mb-4">
-            <span>Totals:</span>{" "}
+            <span>Totals (Incl. Shipping):</span>
             <span>${(calculateTotal() + 15).toFixed(2)}</span>
           </p>
-          <button className="w-full py-2 bg-green-500 text-white rounded-md">
+          <button
+            onClick={handleCheckout}
+            className="w-full py-2 bg-green-500 text-white rounded-md"
+          >
             Proceed To Checkout
           </button>
         </div>
+
         {/* Shipping Calculator */}
         <div className="p-6 bg-gray-50 rounded-md shadow-md">
           <h2 className="text-xl font-bold mb-4">Calculate Shipping</h2>
           <input
             type="text"
-            placeholder="Bangladesh"
+            placeholder="Country"
             className="w-full mb-3 px-3 py-2 border rounded-md"
           />
           <input
             type="text"
-            placeholder="Mirpur, Dhaka - 1200"
+            placeholder="City"
             className="w-full mb-3 px-3 py-2 border rounded-md"
           />
           <input
